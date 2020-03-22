@@ -10,3 +10,6 @@ Click "Releases" above to download the latest version. Instructions are also the
 
 ## Discord
 If you need any help, join our Discord at https://discord.gg/66jVk3X
+
+#
+*Not associated with or endorsed by Electronic Arts or Maxis.*
