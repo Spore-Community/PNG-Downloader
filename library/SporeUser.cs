@@ -42,7 +42,7 @@ namespace SporeDownloader
 
                     assetIds.Enqueue(assetId);
 
-                    Console.WriteLine("Found asset ID " + assetId + " for user " + UserName);
+                    Console.WriteLine($"Found asset ID {assetId} for user {UserName}");
                 }
 
                 // Check if the number of retrieved creations is less than 500, if it is, exit loop
@@ -52,7 +52,7 @@ namespace SporeDownloader
                 else Thread.Sleep(1000);
             }
 
-            Console.WriteLine("Found " + assetIds.Count + " assets for user " + UserName);
+            Console.WriteLine($"Found {assetIds.Count} assets for user {UserName}");
 
             return assetIds;
         }
@@ -79,13 +79,13 @@ namespace SporeDownloader
                 }
                 catch (System.Xml.XmlException)
                 {
-                    Console.WriteLine("Asset ID " + id + " for user " + UserName + " has invalid data in its Spore.com XML data, this data will not be saved");
+                    Console.WriteLine($"Asset ID {id} for user {UserName} has invalid data in its Spore.com XML data, this data will not be saved");
                 }
 
-                Console.WriteLine("Saved asset ID " + id + " for user " + UserName);
+                Console.WriteLine($"Saved asset ID {id} for user {UserName}");
             }
 
-            Console.WriteLine("Saved " + assetIds.Count + " assets for user " + UserName);
+            Console.WriteLine($"Saved {assetIds.Count} assets for user {UserName}");
         }
     }
 }

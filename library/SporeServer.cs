@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Net;
+﻿using System.Net;
 using System.Xml.Linq;
 
 namespace SporeDownloader
@@ -14,7 +12,7 @@ namespace SporeDownloader
         /// </summary>
         public XDocument getStats()
         {
-            return XDocument.Load(endpoint + "/rest/stats");
+            return XDocument.Load($"{endpoint}/rest/stats");
         }
 
         /// <summary>
@@ -22,7 +20,7 @@ namespace SporeDownloader
         /// </summary>
         public XDocument getCreatureStats(long assetId)
         {
-            return XDocument.Load(endpoint + "/rest/creature/" + assetId);
+            return XDocument.Load($"{endpoint}/rest/creature/{assetId}");
         }
 
         /// <summary>
@@ -30,7 +28,7 @@ namespace SporeDownloader
         /// </summary>
         public XDocument getProfileInfo(string username)
         {
-            return XDocument.Load(endpoint + "/rest/user/" + username);
+            return XDocument.Load($"{endpoint}/rest/user/{username}");
         }
 
         /// <summary>
@@ -38,7 +36,7 @@ namespace SporeDownloader
         /// </summary>
         public XDocument getAssetsForUser(string username, int startIndex, int length)
         {
-            return XDocument.Load(endpoint + "/rest/assets/user/" + username + "/" + startIndex + "/" + length);
+            return XDocument.Load($"{endpoint}/rest/assets/user/{username}/{startIndex}/{length}");
         }
 
         /// <summary>
@@ -46,7 +44,7 @@ namespace SporeDownloader
         /// </summary>
         public XDocument getAssetsForSporecast(long sporecastId, int startIndex, int length)
         {
-            return XDocument.Load(endpoint + "/rest/assets/sporecast/" + sporecastId + "/" + startIndex + "/" + length);
+            return XDocument.Load($"{endpoint}/rest/assets/sporecast/{sporecastId}/{startIndex}/{length}");
         }
 
         /// <summary>
@@ -54,7 +52,7 @@ namespace SporeDownloader
         /// </summary>
         public XDocument getAchievementsForUser(string username, int startIndex, int length)
         {
-            return XDocument.Load(endpoint + "/rest/achievements/" + username + "/" + startIndex + "/" + length);
+            return XDocument.Load($"{endpoint}/rest/achievements/{username}/{startIndex}/{length}");
         }
 
         /// <summary>
@@ -62,7 +60,7 @@ namespace SporeDownloader
         /// </summary>
         public XDocument getAssetInfo(long assetId)
         {
-            return XDocument.Load(endpoint + "/rest/asset/" + assetId);
+            return XDocument.Load($"{endpoint}/rest/asset/{assetId}");
         }
 
         /// <summary>
@@ -70,7 +68,7 @@ namespace SporeDownloader
         /// </summary>
         public XDocument getCommentsForAsset(long assetId, int startIndex, int length)
         {
-            return XDocument.Load(endpoint + "/rest/comments/" + assetId + "/" + startIndex + "/" + length);
+            return XDocument.Load($"{endpoint}/rest/comments/{assetId}/{startIndex}/{length}");
         }
 
         /// <summary>
@@ -78,7 +76,7 @@ namespace SporeDownloader
         /// </summary>
         public XDocument getBuddiesForUser(string username, int startIndex, int length)
         {
-            return XDocument.Load(endpoint + "/rest/users/buddies/" + username + "/" + startIndex + "/" + length);
+            return XDocument.Load($"{endpoint}/rest/users/buddies/{username}/{startIndex}/{length}");
         }
 
         /// <summary>
@@ -86,7 +84,7 @@ namespace SporeDownloader
         /// </summary>
         public XDocument getSubscribersForUser(string username, int startIndex, int length)
         {
-            return XDocument.Load(endpoint + "/rest/users/subscribers/" + username + "/" + startIndex + "/" + length);
+            return XDocument.Load($"{endpoint}/rest/users/subscribers/{username}/{startIndex}/{length}");
         }
 
         /// <summary>
@@ -96,7 +94,7 @@ namespace SporeDownloader
         /// </summary>
         public XDocument search(string viewType, int startIndex, int length)
         {
-            return XDocument.Load(endpoint + "/rest/assets/search/" + viewType + "/" + startIndex + "/" + length);
+            return XDocument.Load($"{endpoint}/rest/assets/search/{viewType}/{startIndex}/{length}");
         }
 
         /// <summary>
@@ -108,7 +106,7 @@ namespace SporeDownloader
         /// </summary>
         public XDocument search(string viewType, int startIndex, int length, string assetType)
         {
-            return XDocument.Load(endpoint + "/rest/assets/search/" + viewType + "/" + startIndex + "/" + length + "/" + assetType);
+            return XDocument.Load($"{endpoint}/rest/assets/search/{viewType}/{startIndex}/{length}/{assetType}");
         }
 
 
@@ -123,7 +121,7 @@ namespace SporeDownloader
             string subId2 = id.Substring(3, 3);
             string subId3 = id.Substring(6, 3);
 
-            return XDocument.Load(endpoint + "/static/model/" + subId1 + "/" + subId2 + "/" + subId3 + "/" + id + ".xml");
+            return XDocument.Load($"{endpoint}/static/model/{subId1}/{subId2}/{subId3}/{id}.xml");
         }
 
         /// <summary>
@@ -136,7 +134,7 @@ namespace SporeDownloader
             string subId2 = id.Substring(3, 3);
             string subId3 = id.Substring(6, 3);
 
-            string uri = endpoint + "/static/image/" + subId1 + "/" + subId2 + "/" + subId3 + "/" + id + "_lrg.png";
+            string uri = $"{endpoint}/static/image/{subId1}/{subId2}/{subId3}/{id}_lrg.png";
 
             using (var client = new WebClient())
             {
@@ -154,7 +152,7 @@ namespace SporeDownloader
             string subId2 = id.Substring(3, 3);
             string subId3 = id.Substring(6, 3);
 
-            string uri = endpoint + "/static/thumb/" + subId1 + "/" + subId2 + "/" + subId3 + "/" + id + ".png";
+            string uri = $"{endpoint}/static/thumb/{subId1}/{subId2}/{subId3}/{id}.png";
 
             using (var client = new WebClient())
             {
