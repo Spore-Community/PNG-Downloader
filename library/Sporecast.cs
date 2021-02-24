@@ -6,25 +6,17 @@ using System.Xml.Linq;
 
 namespace SporeDownloader
 {
-    public class SporeUser
+    public class Sporecast
     {
-        public string UserName { get; set; }
+        public long Id { get; }
 
-        public SporeUser(string userName)
+        public Sporecast(long id)
         {
-            UserName = userName;
+            Id = id;
         }
 
         /// <summary>
-        /// Gets the profile info XML for this user
-        /// </summary>
-        public XDocument getProfileInfo()
-        {
-            return new SporeServer().getProfileInfo(UserName);
-        }
-
-        /// <summary>
-        /// Gets a collection of IDs for all of this user's assets. Maximum speed of 500 creations per second, to reduce impact on the server.
+        /// Gets a collection of IDs for all of this sporecast's assets. Maximum speed of 500 creations per second, to reduce impact on the server.
         /// </summary>
         public Queue<long> getAllAssetIds()
         {
@@ -34,7 +26,7 @@ namespace SporeDownloader
 
             for (int i = 0; ; i += 500)
             {
-                var doc = server.getAssetsForUser(UserName, i, 500).Element("assets");
+                var doc = server.getAssetsForSporecast(Id, i, 500).Element("assets");
 
                 if(doc is null)
                 {
@@ -47,7 +39,7 @@ namespace SporeDownloader
 
                     assetIds.Enqueue(assetId);
 
-                    Console.WriteLine($"Found asset ID {assetId} for user {UserName}");
+                    Console.WriteLine($"Found asset ID {assetId} for sporecast {Id}");
                 }
 
                 // Check if the number of retrieved creations is less than 500, if it is, exit loop
@@ -57,13 +49,13 @@ namespace SporeDownloader
                 else Thread.Sleep(1000);
             }
 
-            Console.WriteLine($"Found {assetIds.Count} assets for user {UserName}");
+            Console.WriteLine($"Found {assetIds.Count} assets for sporecast {Id}");
 
             return assetIds;
         }
 
         /// <summary>
-        /// Downloads all assets for this user.
+        /// Downloads all assets for this sporecast.
         /// </summary>
         public void downloadAllAssets(String filePath)
         {
@@ -71,7 +63,7 @@ namespace SporeDownloader
 
             var server = new SporeServer();
 
-            filePath += "\\" + UserName;
+            filePath += "\\" + Id;
             Directory.CreateDirectory(filePath);
             filePath += "\\";
 
@@ -84,13 +76,13 @@ namespace SporeDownloader
                 }
                 catch (System.Xml.XmlException)
                 {
-                    Console.WriteLine($"Asset ID {id} for user {UserName} has invalid data in its Spore.com XML data, this data will not be saved");
+                    Console.WriteLine($"Asset ID {id} for sporecast {Id} has invalid data in its Spore.com XML data, this data will not be saved");
                 }
 
-                Console.WriteLine($"Saved asset ID {id} for user {UserName}");
+                Console.WriteLine($"Saved asset ID {id} for sporecast {Id}");
             }
 
-            Console.WriteLine($"Saved {assetIds.Count} assets for user {UserName}");
+            Console.WriteLine($"Saved {assetIds.Count} assets for sporecast {Id}");
         }
     }
 }
