@@ -160,5 +160,48 @@ namespace SporeDownloader
             }
         }
 
+
+
+        /// <summary>
+        /// Get a feed of all the assets for user. Asset name, description, type, creation date, PNG and XML links are included
+        /// </summary>
+        public XDocument getAssetsForUserFeed(string username)
+        {
+            return XDocument.Load($"{endpoint}/atom/assets/user/{username}");
+        }
+
+        /// <summary>
+        /// Get a feed of recent events for user
+        /// </summary>
+        public XDocument getEventsForUserFeed(string username)
+        {
+            return XDocument.Load($"{endpoint}/atom/events/user/{username}");
+        }
+
+        /// <summary>
+        /// Get a feed of recent events for given asset id
+        /// </summary>
+        public XDocument getEventsForAssetFeed(long assetId)
+        {
+            return XDocument.Load($"{endpoint}/atom/events/asset/{assetId}");
+        }
+
+        /// <summary>
+        /// Get a feed of all the assets in a sporecast, date they were added and links to PNG and XML
+        /// </summary>
+        public XDocument getSporecastFeed(long sporecastId)
+        {
+            return XDocument.Load($"{endpoint}/atom/sporecast/{sporecastId}");
+        }
+
+        /// <summary>
+        /// List creations for a given view.
+        /// View Types are: TOP_RATED, TOP_RATED_NEW, NEWEST, FEATURED, MAXIS_MADE, RANDOM, CUTE_AND_CREEPY
+        /// </summary>
+        public XDocument searchFeed(string viewType, int startIndex, int length)
+        {
+            return XDocument.Load($"{endpoint}/atom/assets/view/{viewType}/{startIndex}/{length}");
+        }
+
     }
 }
