@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Xml.Linq;
 
@@ -16,7 +17,7 @@ namespace SporeDownloader
         }
 
         /// <summary>
-        /// Gets a collection of IDs for all of this sporecast's assets. Maximum speed of 500 creations per second, to reduce impact on the server.
+        /// Gets a collection of IDs for all of this sporecast's assets.
         /// </summary>
         public Queue<long> getAllAssetIds()
         {
@@ -24,32 +25,28 @@ namespace SporeDownloader
 
             var assetIds = new Queue<long>();
 
-            for (int i = 0; ; i += 500)
+
+            var doc = server.getSporecastFeed(Id).Element("{http://www.w3.org/2005/Atom}feed");//.Elements().FirstOrDefault()?.Elements().FirstOrDefault();
+            Console.WriteLine(doc?.ToString());
+
+            if (doc is not null)
             {
-                var doc = server.getAssetsForSporecast(Id, i, 500).Element("assets");
-
-                if(doc is null)
+                foreach (var asset in doc.Elements("{http://www.w3.org/2005/Atom}entry"))
                 {
-                    break;
-                }
-
-                foreach (var asset in doc.Elements("asset"))
-                {
-                    long assetId = long.Parse(asset.Element("id")!.Value);
+                    string entryId = asset.Element("{http://www.w3.org/2005/Atom}id")!.Value;
+                    long assetId = long.Parse(entryId.Split('/')[1]);
 
                     assetIds.Enqueue(assetId);
 
                     Console.WriteLine($"Found asset ID {assetId} for sporecast {Id}");
                 }
-
-                // Check if the number of retrieved creations is less than 500, if it is, exit loop
-                int retrievedCount = int.Parse(doc.Element("count")!.Value);
-                if (retrievedCount < 500) break;
-                // Pause for a second, so we don't upset the server
-                else Thread.Sleep(1000);
+                Console.WriteLine($"Found {assetIds.Count} assets for sporecast {Id}");
+            }
+            else
+            {
+                Console.WriteLine($"Found no assets for sporecast {Id}, feed did not exist");
             }
 
-            Console.WriteLine($"Found {assetIds.Count} assets for sporecast {Id}");
 
             return assetIds;
         }
