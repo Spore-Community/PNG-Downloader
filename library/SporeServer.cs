@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Xml.Linq;
 
 namespace SporeDownloader
@@ -134,11 +135,11 @@ namespace SporeDownloader
             string subId2 = id.Substring(3, 3);
             string subId3 = id.Substring(6, 3);
 
-            string uri = $"{endpoint}/static/image/{subId1}/{subId2}/{subId3}/{id}_lrg.png";
+            var uri = new Uri($"{endpoint}/static/image/{subId1}/{subId2}/{subId3}/{id}_lrg.png");
 
             using (var client = new WebClient())
             {
-                client.DownloadFile(uri, fileName);
+                client.DownloadFileAsync(uri, fileName);
             }
         }
 
@@ -152,11 +153,11 @@ namespace SporeDownloader
             string subId2 = id.Substring(3, 3);
             string subId3 = id.Substring(6, 3);
 
-            string uri = $"{endpoint}/static/thumb/{subId1}/{subId2}/{subId3}/{id}.png";
+            var uri = new Uri($"{endpoint}/static/thumb/{subId1}/{subId2}/{subId3}/{id}.png");
 
             using (var client = new WebClient())
             {
-                client.DownloadFile(uri, fileName);
+                client.DownloadFileAsync(uri, fileName);
             }
         }
 
