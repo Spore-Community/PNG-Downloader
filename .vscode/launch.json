@@ -12,8 +12,8 @@
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/console/bin/Debug/net5.0/SporeDownloader.dll",
             "args": [
-                "sporecast",
-                "501087975247"
+                "user",
+                "DOGC_Kyle"
             ],
             "cwd": "${workspaceFolder}/console",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console

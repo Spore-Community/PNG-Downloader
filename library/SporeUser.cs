@@ -32,32 +32,25 @@ namespace SporeDownloader
 
             var assetIds = new Queue<long>();
 
-            for (int i = 0; ; i += 500)
+            var doc = server.getAssetsForUserFeed(UserName).Element("{http://www.w3.org/2005/Atom}feed");
+
+            if (doc is not null)
             {
-                var doc = server.getAssetsForUser(UserName, i, 500).Element("assets");
-
-                if(doc is null)
+                foreach (var asset in doc.Elements("{http://www.w3.org/2005/Atom}entry"))
                 {
-                    break;
-                }
-
-                foreach (var asset in doc.Elements("asset"))
-                {
-                    long assetId = long.Parse(asset.Element("id")!.Value);
+                    string entryId = asset.Element("{http://www.w3.org/2005/Atom}id")!.Value;
+                    long assetId = long.Parse(entryId.Split('/')[1]);
 
                     assetIds.Enqueue(assetId);
 
                     Console.WriteLine($"Found asset ID {assetId} for user {UserName}");
                 }
-
-                // Check if the number of retrieved creations is less than 500, if it is, exit loop
-                int retrievedCount = int.Parse(doc.Element("count")!.Value);
-                if (retrievedCount < 500) break;
-                // Pause for a second, so we don't upset the server
-                else Thread.Sleep(1000);
+                Console.WriteLine($"Found {assetIds.Count} assets for user {UserName}");
             }
-
-            Console.WriteLine($"Found {assetIds.Count} assets for user {UserName}");
+            else
+            {
+                Console.WriteLine($"Found no assets for user {UserName}, feed did not exist");
+            }
 
             return assetIds;
         }
@@ -78,14 +71,14 @@ namespace SporeDownloader
             foreach (var id in assetIds)
             {
                 server.downloadAssetPng(id, filePath + id + ".png");
-                try
+                /*try
                 {
                     server.getAssetInfo(id).Save(filePath + id + "_meta.xml");
                 }
                 catch (System.Xml.XmlException)
                 {
                     Console.WriteLine($"Asset ID {id} for user {UserName} has invalid data in its Spore.com XML data, this data will not be saved");
-                }
+                }*/
 
                 Console.WriteLine($"Saved asset ID {id} for user {UserName}");
             }
