@@ -1,6 +1,12 @@
 ﻿using System;
 using SporeDownloader;
 
+if(args.Length!=2){
+    Console.WriteLine("Run with 'user' or 'sporecast', followed by the username or ID.");
+    Console.WriteLine("Example: .\\SporeDownloader.exe user DOGC_Kyle");
+    return;
+}
+
 string mode = args[0];
 
 switch (mode)
