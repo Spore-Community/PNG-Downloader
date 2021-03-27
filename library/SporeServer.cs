@@ -139,7 +139,7 @@ namespace SporeDownloader
 
             using (var client = new WebClient())
             {
-                client.DownloadFileAsync(uri, fileName);
+                client.DownloadFile(uri, fileName);
             }
         }
 
@@ -157,7 +157,7 @@ namespace SporeDownloader
 
             using (var client = new WebClient())
             {
-                client.DownloadFileAsync(uri, fileName);
+                client.DownloadFile(uri, fileName);
             }
         }
 
