@@ -6,7 +6,7 @@ namespace SporeDownloader
 {
     public class SporeServer
     {
-        private string endpoint = "https://www.spore.com";
+        private string endpoint = "http://www.spore.com";
 
         /// <summary>
         /// Get daily stats about Spore.com
